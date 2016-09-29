@@ -53,18 +53,22 @@ def get_soup(url):
         return None
 
 #checks if any value present within the array 'array' exists within the string 'string' or not
-def exists(array, string, identifier):
-
+def weightage_calculate(array, string, identifier):
+    #initializing the weightage counter
     counter = 0;
+    
     #looping over the array
     for element in array:
         #extracting each element from array and checking if it exists in string or not
         if element in string:
             if identifier == 'src':
+                #assigning a weightage of 2 in case the gender is detected in the source code
                 counter += 2;
             elif identifier == 'title':
+                #weightage of 10 in case it is detected in the title itself
                 counter += 10;
             else:
+                #weightage of 20 in case gender is present in the URL
                 counter += 20;
 
     #in case nothing is found
@@ -77,27 +81,33 @@ def gender_scraping(name):
     female_array = ['female', 'woman', 'girl', 'feminine'];
     male_array = ['male', 'man', 'boy', 'masculine'];
 
+    #initializing the counters for both the genders
     female_counter = 0;
     male_counter = 0;
 
-    #looping over each URL obtained as a part of the Google search
-    for url in search(name + " baby names", stop = 5):
-        source = get_soup(url);
+    try:
+        #looping over each URL obtained as a part of the Google search
+        for url in search(name + " baby names", stop = 5):
+            source = get_soup(url);
 
-        if not source or not source.title:
-            continue;
+            if not source or not source.title:
+                continue;
 
-        #converting both the URL and the source code into lower cases
-        url = url.lower();
-        source_text = str(source).lower();
+            #converting both the URL and the source code into lower cases
+            url = url.lower();
+            source_text = str(source).lower();
 
-        female_counter += exists(female_array, str(source.title).lower(), 'title');
-        female_counter += exists(female_array, url, 'url');
-        female_counter += exists(female_array, source_text, 'src');
+            #calculating the cumulative weightage
+            female_counter += weightage_calculate(female_array, str(source.title).lower(), 'title');
+            female_counter += weightage_calculate(female_array, url, 'url');
+            female_counter += weightage_calculate(female_array, source_text, 'src');
 
-        male_counter += exists(male_array, str(source.title).lower(), 'title');
-        male_counter += exists(male_array, url, 'url');
-        male_counter += exists(male_array, source_text, 'src');
+            male_counter += weightage_calculate(male_array, str(source.title).lower(), 'title');
+            male_counter += weightage_calculate(male_array, url, 'url');
+            male_counter += weightage_calculate(male_array, source_text, 'src');
+
+    except:
+        return [0, 0];
 
     return [female_counter, male_counter];
 
@@ -115,9 +125,6 @@ def gender_last_character(name):
     female_indicator_1 = 97;
     female_indicator_2 = 105;
 
-    #directly compare with integers
-    #no hexing
-
     #extract the last character of the argument
     value = ord(name[-1].lower());
 
@@ -125,6 +132,9 @@ def gender_last_character(name):
     male_counter = 0;
 
     #checking whether the name ends with a or i
+    #assigning a weightage of 2 to this approach
+    #because compared to the scraping approach, it is not quite
+    #significant, but significant enough to affect the final value
     if value == female_indicator_1 or value == female_indicator_2:
         female_counter += 2;
 
@@ -152,6 +162,7 @@ def initiate(name):
 
     return "Ambiguous";
 
+#checking the genders of various names
 print(initiate("Nandita"))
 print(initiate("Raju"))
 print(initiate("Sampada"))
