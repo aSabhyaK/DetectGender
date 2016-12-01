@@ -74,9 +74,7 @@ def initiate(name):
 #TRY ADDING COUNTERS
 #TRY EXTRACTING THE OCCURENCES OF FEMALE AND MALE MENTIONS FROM THE COMPLETE SOURCE CIDE AND THEN COMPARE AT THE END
 
-print(initiate("Nandita"))
 print(initiate("Sabhya"))
 print(initiate("Sampada"))
 print(initiate("Raju"))
-print(initiate("Veena"))
 print(initiate("Sushil"))
