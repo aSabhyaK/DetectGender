@@ -21,7 +21,6 @@ def gender(s):
 
     return "Ambiguous";
 
-print(gender('Nandita'))
 print(gender('Priya'))
 print(gender('Raju'))
 print(gender('Sabhya'))
