@@ -152,7 +152,6 @@ def initiate(name):
 
     return "Ambiguous";
 
-print(initiate("Nandita"))
 print(initiate("Raju"))
 print(initiate("Sampada"))
 print(initiate("Sabhya"))
