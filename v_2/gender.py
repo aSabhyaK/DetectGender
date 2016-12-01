@@ -195,7 +195,6 @@ def initiate(name):
     return gender1;
 
 """
-print(initiate("Nandita"))
 print(initiate("Raju"))
 print(initiate("Sampada"))
 print(initiate("Sabhya"))
